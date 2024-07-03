@@ -15,6 +15,7 @@ class LogisticRegression:
 
   def predict(X: Array[Array[Double]]): Array[Double] =
     val predictions = X.map(xi => {
+      // 1/(1 + exp(-w*xi-bias)), w is the weight vectior and b is the bias
       1/(1+ math.exp(-(this.weights.zip(xi).map((wj, xij) => wj * xij).sum() + this.bias)))
     })
     if this.training then 
@@ -31,6 +32,8 @@ class LogisticRegression:
 
   def gradient(X: Array[Array[Double]], yhat: Array[Double], y: Array[Double]): (Array[Double], Double) =
     val batchSize = X.length
+    // For each xi in the batch X, for each wj in the weight vector d_Loss/d_wj(xi) = di*xij
+    // where di = yhati - yi, with yhati the prediction of the model on xi and yi the true label of xi
     val d = yhat.zip(y).map((u, v) => u - v)
     val batchGradients = X.zip(d).map((xi, di) => xi.map(_ * di))
     var gradients: Array[Double] = Array.fill(this.weights.length){0}
