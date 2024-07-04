@@ -43,6 +43,7 @@ class LogisticRegression:
     })
     return (gradients.map(_ / batchSize), d.sum()/batchSize)
 
+  // Cross-entropy los function
   def loss(yhat: Array[Double], y: Array[Double]): Double =
     val batchSize = y.length
     val losses = yhat.zip(y).map((yhati, yi) => -yi*math.log(yhati) - (1-yi)*math.log(1.0-yhati))
